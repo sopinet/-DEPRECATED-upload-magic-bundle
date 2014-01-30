@@ -43,13 +43,13 @@ $(document).ready(function()
 			
 		},
 		init: function() {
-			{% if images is defined and images != "" %}
+			{% if files is defined and files != "" %}
 				var existingFileCount = 0;
 
-				{% for image in images %}
-					var mockFile = { name: "{{ image.title }}", size: {{ image.filesize }}, id: "{{ image.id }}" };
+				{% for file in files %}
+					var mockFile = { name: "{{ file.pathonlyname }}", size: {{ file.filesize }}, id: "{{ file.id }}" };
 					this.emit("addedfile", mockFile);
-					this.emit("thumbnail", mockFile, "{{ asset(image.pathRelative) }}");
+					this.emit("thumbnail", mockFile, "{{ asset(file.pathRelative) }}");
 					existingFileCount++; // The number of files already uploaded
 				{% endfor %}
 				
