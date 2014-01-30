@@ -2,7 +2,7 @@
     "name": "sopinet/upload-magic-bundle",
     "version": "0.0.1",
     "description": "Symfony2 Bundle - Easy integration for DropzoneJS and OneupUploaderBundle",
-    "keywords": ["upload, oneupuploader, dropzonejs, symfony2, bundle"],
+    "keywords": ["upload", "oneupuploader", "dropzonejs", "symfony2", "bundle"],
     "type": "symfony-bundle",
     "license": "GPL2",
     "authors": [
