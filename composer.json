@@ -5,6 +5,7 @@
     "keywords": ["upload", "oneupuploader", "dropzonejs", "symfony2", "bundle"],
     "type": "symfony-bundle",
     "license": "GPL2",
+    "minimum-stability" : "dev",
     "authors": [
         {
             "name": "Fernando Hidalgo",
