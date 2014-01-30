@@ -46,6 +46,14 @@ oneup_uploader:
             frontend: dropzone
 ```
 
+2. Configure routing
+
+```yaml
+oneup_uploader:
+    resource: .
+    type: uploader
+```
+
 2. More options from OneupUploaderBundle,https://github.com/1up-lab/OneupUploaderBundle/blob/master/Resources/doc/index.md but upload-magic-bundle only support dropzone frontend method.
 
 ### Step 3: Define your Entity
