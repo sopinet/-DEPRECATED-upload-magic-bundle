@@ -1,0 +1,67 @@
+<script type="text/javascript">
+
+$(document).ready(function()
+{			
+	var deleted = "";
+	var defaultMessage = "<b>Sube</b> o arrastra aquí tus ficheros";
+	{% if defaultMessage is defined %}
+	defaultMessage = "{{ defaultMessage }}";
+	{% endif %}
+	 Dropzone.options.{{ name }} = {
+		{% if limit is defined %}
+		maxFiles: {{ limit }},
+		{% endif %}
+		addRemoveLinks: true,
+		maxfilesexceeded: function(file) {
+			var _ref;
+						
+			var ret = (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+
+			{% if limit == 1 %}
+			alert("Este campo sólo admite {{ limit }} fichero");
+			{% else %}
+			alert("Este campo sólo admite {{ limit }} ficheros");
+			{% endif %}
+
+			return ret;			
+		},
+		dictDefaultMessage: defaultMessage,
+		dictRemoveFile: 'Eliminar o cambiar',
+		removedfile: function(file) {						
+			$.post("{{ path('upload_delete') }}",
+					{ id: file.id, entity: "{{ entity }}" },
+						function(data){
+							$("body").trigger("removedFile", data);
+						}
+					);
+
+			// ¿? if(deleted == "ok"){
+				this.options.maxFiles = {{ limit }};
+				var _ref;
+				return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;	
+			// }
+			
+		},
+		init: function() {
+			{% if images is defined and images != "" %}
+				var existingFileCount = 0;
+
+				{% for image in images %}
+					var mockFile = { name: "{{ image.title }}", size: {{ image.filesize }}, id: "{{ image.id }}" };
+					this.emit("addedfile", mockFile);
+					this.emit("thumbnail", mockFile, "{{ asset(image.pathRelative) }}");
+					existingFileCount++; // The number of files already uploaded
+				{% endfor %}
+				
+				this.options.maxFiles = this.options.maxFiles - existingFileCount;				
+			{% endif %}
+		},
+		success: function(file, response){
+			file.id = response.id;
+			file.entity = response.entity;
+			$("body").trigger("uploadedFile", "ok");		
+		},	
+	 };		
+	 		 			 
+});
+</script>

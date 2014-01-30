@@ -1,0 +1,7 @@
+sopinet_upload_magic_homepage:
+    path:  /hello/{name}
+    defaults: { _controller: SopinetUploadMagicBundle:Default:index }
+    
+upload:
+    resource: "@SopinetUploadMagicBundle/Controller/UploadController.php"
+    type:     annotation

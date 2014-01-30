@@ -1,0 +1,7 @@
+parameters:
+#    sopinet_upload_magic.example.class: Sopinet\UploadMagicBundle\Example
+
+services:
+#    sopinet_upload_magic.example:
+#        class: %sopinet_upload_magic.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
