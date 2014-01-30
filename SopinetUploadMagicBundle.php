@@ -1,6 +1,6 @@
 <?php
 
-namespace Sopinet\UploadMagicBundle;
+namespace Sopinet\Bundle\UploadMagicBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
