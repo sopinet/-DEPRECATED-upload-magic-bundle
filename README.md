@@ -34,6 +34,14 @@ new Sopinet\Bundle\UploadMagicBundle\SopinetUploadMagicBundle(),
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
 ```
 
+4. Add routing for delete
+
+```
+upload:
+    resource: "@SopinetUploadMagicBundle/Controller/UploadController.php"
+    type:     annotation
+```
+
 
 ### Step 2: Configure OneupUploaderBundle
 
