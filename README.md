@@ -149,11 +149,11 @@ More documentation about params form is coming... ;)
 	%}
 ```
 
-== More JS, trigger
+## More JS, trigger
 
 What file is uploading or file is removed, you can capture this event in JQuery and do anything.
 
-=== Events
+### Events
 
 ```js
 $( "body" ).on( "removedFile", function( event, data) {
@@ -165,7 +165,7 @@ $("body").on("uploadedFile", function(event, data) {
 });
 ```
 
-=== Sample
+### Sample
 
 ```js
 $( "body" ).on( "removedFile", function( event, data) {
