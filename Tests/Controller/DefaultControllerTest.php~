@@ -1,6 +1,6 @@
 <?php
 
-namespace Sopinet\Bundle\UploadMagicBundle\Tests\Controller;
+namespace Sopinet\UploadMagicBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

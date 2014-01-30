@@ -1,6 +1,6 @@
 <?php
 
-namespace Sopinet\UploadMagicBundle\DependencyInjection;
+namespace Sopinet\Bundle\UploadMagicBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

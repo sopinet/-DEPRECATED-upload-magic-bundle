@@ -1,6 +1,6 @@
 <?php
 
-namespace Sopinet\UploadMagicBundle\Controller;
+namespace Sopinet\Bundle\UploadMagicBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

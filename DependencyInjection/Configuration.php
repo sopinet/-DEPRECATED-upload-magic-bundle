@@ -1,6 +1,6 @@
 <?php
 
-namespace Sopinet\UploadMagicBundle\DependencyInjection;
+namespace Sopinet\Bundle\UploadMagicBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -1,5 +1,5 @@
 <?php 
-namespace Sopinet\UploadMagicBundle\Listener;
+namespace Sopinet\Bundle\UploadMagicBundle\Listener;
 
 use Oneup\UploaderBundle\Event\PostPersistEvent;
 use Monolog\Logger;

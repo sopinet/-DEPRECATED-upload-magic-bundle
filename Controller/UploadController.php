@@ -1,5 +1,5 @@
 <?php 
-namespace Sopinet\UploadMagicBundle\Controller;
+namespace Sopinet\Bundle\UploadMagicBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
