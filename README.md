@@ -34,6 +34,14 @@ new Sopinet\Bundle\UploadMagicBundle\SopinetUploadMagicBundle(),
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
 ```
 
+4. Add routing for delete
+
+```
+upload:
+    resource: "@SopinetUploadMagicBundle/Controller/UploadController.php"
+    type:     annotation
+```
+
 
 ### Step 2: Configure OneupUploaderBundle
 
@@ -44,6 +52,14 @@ oneup_uploader:
     mappings:
         gallery:
             frontend: dropzone
+```
+
+2. Configure routing
+
+```yaml
+oneup_uploader:
+    resource: .
+    type: uploader
 ```
 
 2. More options from OneupUploaderBundle,https://github.com/1up-lab/OneupUploaderBundle/blob/master/Resources/doc/index.md but upload-magic-bundle only support dropzone frontend method.
@@ -133,11 +149,11 @@ More documentation about params form is coming... ;)
 	%}
 ```
 
-== More JS, trigger
+## More JS, trigger
 
 What file is uploading or file is removed, you can capture this event in JQuery and do anything.
 
-=== Events
+### Events
 
 ```js
 $( "body" ).on( "removedFile", function( event, data) {
@@ -149,7 +165,7 @@ $("body").on("uploadedFile", function(event, data) {
 });
 ```
 
-=== Sample
+### Sample
 
 ```js
 $( "body" ).on( "removedFile", function( event, data) {
