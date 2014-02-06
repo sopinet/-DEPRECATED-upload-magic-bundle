@@ -9,6 +9,10 @@ namespace Sopinet\Bundle\UploadMagicBundle\Model;
  */
 trait UploadMagic
 {
+	/**
+	 * @ORM\Column(name="title", type="string", length=255, nullable=true)
+	 */
+	protected $title;	
 	
 	/**
 	 * @ORM\Column(name="path", type="string", length=255, nullable=true)
@@ -92,7 +96,33 @@ trait UploadMagic
 		return $this->filesize;
 	}	
 	
+	/**
+	 * Set title
+	 *
+	 * @param string $title
+	 *
+	 * @return File
+	 */
+	public function setTitle($title)
+	{
+		$this->title = $title;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get title
+	 *
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+	
+	
 	public function __toString() {
 		return $this->getPathOnlyName();
 	}
 }
+

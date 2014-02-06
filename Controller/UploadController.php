@@ -47,5 +47,38 @@ class UploadController extends Controller
 		
 		return $this->render('SopinetUploadMagicBundle:Upload:delete.html.twig', array('delete' => $delete));
 	}
+	
+	/**
+	 * @Post("/saveType", name="uploadmagic_savetype")
+	 */	
+	public function saveType(Request $request)
+	{
+		$em = $this->get('doctrine.orm.entity_manager');
+		
+		$id = $request->get('id');
+		$entityString = $request->get('entity');
+		$type = $request->get('type');
+		$text = $request->get('text');
+		$ent_a = explode("_", $entityString);	
+		
+		eval("\$reEntity = \$em->getRepository('".$ent_a[0].$ent_a[1].":".$ent_a[2]."');");
+		
+		$entity = $reEntity->findOneById( $id );
+		
+		if($entity != null){
+				
+			$save = "ok";
+			
+			if ($type == "title") {
+				$entity->setTitle($text);
+			}
+			$em->persist($entity);
+			$em->flush();
+		} else {
+			$save = "ko";
+		}
+		
+		return $this->render('SopinetUploadMagicBundle:Upload:delete.html.twig', array('delete' => $save));		
+	}
 }
 ?>
