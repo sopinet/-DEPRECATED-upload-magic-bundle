@@ -50,6 +50,22 @@ $(document).ready(function()
 					var mockFile = { name: "{{ file.pathonlyname }}", size: {{ file.filesize }}, id: "{{ file.id }}" };
 					this.emit("addedfile", mockFile);
 					this.emit("thumbnail", mockFile, "{{ asset(file.pathRelative) }}");
+					$( "div.dz-title" ).toggleClass( "title_id_{{ file.id }}" );
+					$(".title_id_{{ file.id }}").removeClass( "dz-title" );
+					{% if inputType is defined %}
+						$(".title_id_{{ file.id }}").html("<input type='text' id='file_title_{{ file.id }}' value='{{ file.title }}'/>");
+						$(".title_id_{{ file.id }}").on("keyup", function() {
+							$("#file_title_{{ file.id }}").css( "background-color", "red" );
+							var text = $("#file_title_{{ file.id }}").val();
+							$.post("{{ path('uploadmagic_savetype') }}",
+								{ id: {{ file.id }}, entity: "{{ entity }}", type:  "{{  inputType }}", text: text },
+								function(data){
+									$("#file_title_{{ file.id }}").css( "background-color", "transparent" );
+									console.log( "Estamos escribiendo en: " + $("#file_title_{{ file.id }}").val() );
+								}
+							);
+						});
+					{% endif %}
 					existingFileCount++; // The number of files already uploaded
 				{% endfor %}
 				
@@ -59,8 +75,25 @@ $(document).ready(function()
 		success: function(file, response){
 			file.id = response.id;
 			file.entity = response.entity;
+			$( "div.dz-title" ).toggleClass( "title_id_"+file.id);
+			$(".title_id_"+file.id).removeClass( "dz-title" );
+			{% if inputType is defined %}
+				$(".title_id_"+file.id).html("<input type'text' id='file_title_"+file.id+"' placeholder='Inserta un titulo'/>");
+				$(".title_id_"+file.id).on("keyup", function() {
+					$("#file_title_"+file.id).css( "background-color", "red" );
+					var text = $("#file_title_" + file.id).val();
+					$.post("{{ path('uploadmagic_savetype') }}",
+						{ id: file.id, entity: file.entity, type:  "{{  inputType }}", text: text },
+						function(data){
+							$(".title_id_"+file.id).css( "background-color", "transparent" );
+							console.log( "Estamos escribiendo en: " + $("#file_title_"+file.id).val() );
+						}
+					);
+				});
+			{% endif %}
 			$("body").trigger("uploadedFile", "ok");		
 		},	
+		previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n </div>\n Titulo\n <div class='dz-title'></div>\n <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
 	 };		
 	 		 			 
 });
