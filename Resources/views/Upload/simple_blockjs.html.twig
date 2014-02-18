@@ -47,13 +47,15 @@ $(document).ready(function()
 				var existingFileCount = 0;
 
 				{% for file in files %}
-					var mockFile = { name: "{{ file.pathonlyname }}", size: {{ file.filesize }}, id: "{{ file.id }}, type: "{{ file.type }}"" };
+				var mockFile = { name: "{{ file.pathonlyname }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.type }}" };
 					this.emit("addedfile", mockFile);
 					if(mockFile.type == "image") {
 						this.emit("thumbnail", mockFile, "{{ asset(file.pathRelative) }}");
 					}
 					else {
-						this.emit("thumbnail", mockFile, "{{ asset("@SopinetUploadMagicBundle/Resources/public/img/music.png")}}");
+						{% image '@SopinetUploadMagicBundle/Resources/public/img/music.png' %}
+							this.emit("thumbnail", mockFile, "{{ asset_url }}");
+						{% endimage %}
 					}
 					
 					$( "div.dz-title" ).toggleClass( "title_id_{{ file.id }}" );
