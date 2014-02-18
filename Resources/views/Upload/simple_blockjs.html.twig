@@ -53,7 +53,7 @@ $(document).ready(function()
 						this.emit("thumbnail", mockFile, "{{ asset(file.pathRelative) }}");
 					}
 					else {
-						this.emit("thumbnail", mockFile, "{{ asset("bundles/uploadmagic/img/music.png")}}");
+						this.emit("thumbnail", mockFile, "{{ asset("@SopinetUploadMagicBundle/Resources/public/img/music.png")}}");
 					}
 					
 					$( "div.dz-title" ).toggleClass( "title_id_{{ file.id }}" );
