@@ -189,9 +189,9 @@
     background-size: 428px 406px;
   }
 }
-.dropzone .dz-default.dz-message span {
+/*.dropzone .dz-default.dz-message span {
   display: none;
-}
+}*/
 .dropzone.dz-square .dz-default.dz-message {
   background-position: 0 -123px;
   width: 268px;
