@@ -91,7 +91,7 @@ trait UploadMagic
 	}
 
 	public function getFilesize(){
-		$this->filesize = filesize($this->path);
+		$this->filesize = (int) filesize($this->path);
 		 
 		return $this->filesize;
 	}	
