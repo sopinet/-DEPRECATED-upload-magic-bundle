@@ -92,10 +92,11 @@ trait UploadMagic
 
 	public function getFilesize(){
 		if ($this->getPathOnlyName() == "") $this->filesize = 0;
+		else if (!file_exists($this->path)) $this->filesize = 0;
 		else $this->filesize = filesize($this->path);
 		 
 		return $this->filesize;
-	}	
+	}
 	
 	/**
 	 * Set title
