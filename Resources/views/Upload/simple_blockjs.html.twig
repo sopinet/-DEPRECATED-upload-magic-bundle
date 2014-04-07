@@ -48,7 +48,7 @@ $(document).ready(function()
 			
 		},
 		init: function() {
-			this.iconHTML=$("#{{ name }} > i");
+			this.iconHTML=$("#{{ name }} > div");
 			{% if files is defined and files != "" %}
 				var existingFileCount = 0;
 				{% for file in files %}
@@ -82,7 +82,8 @@ $(document).ready(function()
 					existingFileCount++; // The number of files already uploaded
 				{% endfor %}
 				
-				this.options.maxFiles = this.options.maxFiles - existingFileCount;				
+				this.options.maxFiles = this.options.maxFiles - existingFileCount;	
+				if(this.options.maxFiles==0)this.iconHTML.hide();		
 			{% endif %}
 		},
 		success: function(file, response){
