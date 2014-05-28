@@ -1,4 +1,4 @@
-<form id="{{ name }}" action="{{ oneup_uploader_endpoint(type) }}" class="dropzone">
+<form id="{{ name }}" action="{{ oneup_uploader_endpoint(type) }}" class="dropzone ">
 	<input type="hidden" name="id" value="{{ id }}"/>
 	<input type="hidden" name="entity" value="{{ entity }}"/>
 	{% if (param1 is defined) %}
@@ -21,4 +21,7 @@
 		<input name="file" type="file" multiple />
   	</div>
 #}
+  	<div class="dz-preview" style="pointer-events: none">
+		<i style="font-size: 8em;float: left;pointer-events: none" class="icon-plus-sign"></i>
+	</div>
 </form>

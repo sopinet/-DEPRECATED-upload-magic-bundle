@@ -12,6 +12,7 @@ $(document).ready(function()
 		maxFiles: {{ limit }},
 		{% endif %}
 		addRemoveLinks: true,
+		
 		maxfilesexceeded: function(file) {
 			var _ref;
 						
@@ -27,6 +28,9 @@ $(document).ready(function()
 		},
 		dictDefaultMessage: defaultMessage,
 		dictRemoveFile: 'Eliminar o cambiar',
+		maxfilesreached: function(){
+			this.iconHTML.hide();
+		},
 		removedfile: function(file) {						
 			$.post("{{ path('upload_delete') }}",
 					{ id: file.id, entity: "{{ entity }}" },
@@ -38,14 +42,15 @@ $(document).ready(function()
 			// ¿? if(deleted == "ok"){
 				this.options.maxFiles = {{ limit }};
 				var _ref;
+				this.iconHTML.show();
 				return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;	
 			// }
 			
 		},
 		init: function() {
+			this.iconHTML=$("#{{ name }} > div");
 			{% if files is defined and files != "" %}
 				var existingFileCount = 0;
-
 				{% for file in files %}
 				var mockFile = { name: "{{ file.pathonlyname }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.type }}" };
 					this.emit("addedfile", mockFile);
@@ -77,7 +82,8 @@ $(document).ready(function()
 					existingFileCount++; // The number of files already uploaded
 				{% endfor %}
 				
-				this.options.maxFiles = this.options.maxFiles - existingFileCount;				
+				this.options.maxFiles = this.options.maxFiles - existingFileCount;	
+				if(this.options.maxFiles==0)this.iconHTML.hide();		
 			{% endif %}
 		},
 		success: function(file, response){
