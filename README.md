@@ -135,6 +135,11 @@ More documentation about params form is coming... ;)
 {% include 'SopinetUploadMagicBundle:Upload:simple_js.html.twig' %}
 ```
 
+(If you have errors about load time, you can use:
+```
+{% include 'SopinetUploadMagicBundle:Upload:simple_js.timeout.html.twig' %}
+```
+
 4. Add blockjs, for each form
 
 ```
