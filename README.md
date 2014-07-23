@@ -135,7 +135,7 @@ More documentation about params form is coming... ;)
 {% include 'SopinetUploadMagicBundle:Upload:simple_js.html.twig' %}
 ```
 
-(If you have errors about load time, you can use:
+If you have errors about load time, you can use:
 ```
 {% include 'SopinetUploadMagicBundle:Upload:simple_js.timeout.html.twig' %}
 ```
