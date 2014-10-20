@@ -1,114 +1,243 @@
 <script type="text/javascript">
 
 $(document).ready(function()
-{			
-	var deleted = "";
-	var defaultMessage = "<b>Sube</b> o arrastra aquí tus ficheros";
-	{% if defaultMessage is defined %}
-	defaultMessage = "{{ defaultMessage }}";
-	{% endif %}
-	 Dropzone.options.{{ name }} = {
-		{% if limit is defined %}
-		maxFiles: {{ limit }},
-		{% endif %}
-		addRemoveLinks: true,
-		
-		maxfilesexceeded: function(file) {
-			var _ref;
-						
-			var ret = (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+{
+    var deleted = "";
+    var defaultMessage = "{{ "uploadmagic.defaultMessage"|trans }}";
 
-			{% if limit == 1 %}
-			alert("Este campo sólo admite {{ limit }} fichero");
-			{% else %}
-			alert("Este campo sólo admite {{ limit }} ficheros");
-			{% endif %}
+    {% if defaultMessage is defined %}
+    defaultMessage = "{{ defaultMessage }}";
+    {% endif %}
 
-			return ret;			
-		},
-		dictDefaultMessage: defaultMessage,
-		dictRemoveFile: 'Eliminar o cambiar',
-		maxfilesreached: function(){
-			this.iconHTML.hide();
-		},
-		removedfile: function(file) {						
-			$.post("{{ path('upload_delete') }}",
-					{ id: file.id, entity: "{{ entity }}" },
-						function(data){
-							$("body").trigger("removedFile", data);
-						}
-					);
+    Dropzone.options.{{ name }} = {
+        {% if limit is defined %}
+        maxFiles: {{ limit }},
+        {% endif %}
+        addRemoveLinks: true,
 
-			// ¿? if(deleted == "ok"){
-				this.options.maxFiles = {{ limit }};
-				var _ref;
-				this.iconHTML.show();
-				return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;	
-			// }
-			
-		},
-		init: function() {
-			this.iconHTML=$("#{{ name }} > div");
-			{% if files is defined and files != "" %}
-				var existingFileCount = 0;
-				{% for file in files %}
-				var mockFile = { name: "{{ file.pathonlyname }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.type }}" };
-					this.emit("addedfile", mockFile);
-					if(mockFile.type == "audio") {
-						{% image '@SopinetUploadMagicBundle/Resources/public/img/music.png' %}
-							this.emit("thumbnail", mockFile, "{{ asset_url }}");
-						{% endimage %}
-					}
-					else {
-						this.emit("thumbnail", mockFile, "{{ asset(file.pathRelative) }}");
-					}
-					
-					$( "div.dz-title" ).toggleClass( "title_id_{{ file.id }}" );
-					$(".title_id_{{ file.id }}").removeClass( "dz-title" );
-					{% if inputType is defined %}
-						$(".title_id_{{ file.id }}").html("<input type='text' id='file_title_{{ file.id }}' value='{{ file.title }}'/>");
-						$(".title_id_{{ file.id }}").on("keyup", function() {
-							$("#file_title_{{ file.id }}").css( "background-color", "red" );
-							var text = $("#file_title_{{ file.id }}").val();
-							$.post("{{ path('uploadmagic_savetype') }}",
-								{ id: {{ file.id }}, entity: "{{ entity }}", type:  "{{  inputType }}", text: text },
-								function(data){
-									$("#file_title_{{ file.id }}").css( "background-color", "transparent" );
-									console.log( "Estamos escribiendo en: " + $("#file_title_{{ file.id }}").val() );
-								}
-							);
-						});
-					{% endif %}
-					existingFileCount++; // The number of files already uploaded
-				{% endfor %}
-				
-				this.options.maxFiles = this.options.maxFiles - existingFileCount;	
-				if(this.options.maxFiles==0)this.iconHTML.hide();		
-			{% endif %}
-		},
-		success: function(file, response){
-			file.id = response.id;
-			file.entity = response.entity;
-			$( "div.dz-title" ).toggleClass( "title_id_"+file.id);
-			$(".title_id_"+file.id).removeClass( "dz-title" );
-			{% if inputType is defined %}
-				$(".title_id_"+file.id).html("<input type'text' id='file_title_"+file.id+"' placeholder='Inserta un titulo'/>");
-				$(".title_id_"+file.id).on("keyup", function() {
-					$("#file_title_"+file.id).css( "background-color", "red" );
-					var text = $("#file_title_" + file.id).val();
-					$.post("{{ path('uploadmagic_savetype') }}",
-						{ id: file.id, entity: file.entity, type:  "{{  inputType }}", text: text },
-						function(data){
-							$(".title_id_"+file.id).css( "background-color", "transparent" );
-							console.log( "Estamos escribiendo en: " + $("#file_title_"+file.id).val() );
-						}
-					);
-				});
-			{% endif %}
-			$("body").trigger("uploadedFile", "ok");		
-		},	
-		previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n </div>\n Autor\n <div class='dz-title'></div>\n <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
-	 };		
-	 		 			 
+        maxfilesexceeded: function(file) {
+            var _ref;
+
+            var ret = (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+
+            {% if limit == 1 %}
+            alert("Este campo sólo admite {{ limit }} fichero");
+            {% else %}
+            alert("Este campo sólo admite {{ limit }} ficheros");
+            {% endif %}
+
+            return ret;
+        },
+        dictDefaultMessage: defaultMessage,
+        dictRemoveFile: "{{ "uploadmagic.deleteButton"|trans }}",
+        maxfilesreached: function(){
+            this.iconHTML.hide();
+        },
+        removedfile: function(file) {
+            $.post("{{ path('upload_delete') }}",
+                    { id: file.id, entity: "{{ entity }}" },
+                    function(data){
+                        $("body").trigger("removedFile", data);
+                    }
+            );
+
+            // ¿? if(deleted == "ok"){
+            this.options.maxFiles = {{ limit }};
+            var _ref;
+            this.iconHTML.show();
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            // }
+
+        },
+
+        init: function() {
+            this.iconHTML=$("#{{ name }} > div");
+            {% if files is defined and files != "" %}
+            var existingFileCount = 0;
+            {% for file in files %}
+
+            var mockFile = { name: "{{ file.title }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.type }}" };
+
+            this.emit("addedfile", mockFile);
+
+            // Selección de iconos según tipo de archivo
+            if(mockFile.type == "audio") {
+                {% image '@SopinetUploadMagicBundle/Resources/public/images/file_audio.png' %}
+                this.emit("thumbnail", mockFile, "{{ asset_url }}");
+                {% endimage %}
+            }
+            else if(mockFile.type.match(/image.*/)){
+                this.emit("thumbnail", mockFile, "{{ asset(file.pathRelative) }}");
+            }
+            else if(mockFile.type == "application/pdf") {
+                {% image '@SopinetUploadMagicBundle/Resources/public/images/file_pdf.png' %}
+                this.emit("thumbnail", mockFile, "{{ asset_url }}");
+                {% endimage %}
+            }
+            else {
+                {% image '@SopinetUploadMagicBundle/Resources/public/images/file_default.png' %}
+                this.emit("thumbnail", mockFile, "{{ asset_url }}");
+                {% endimage %}
+            }
+
+            $( "div.dz-title" ).toggleClass( "title_id_{{ file.id }}" );
+            $(".title_id_{{ file.id }}").removeClass( "dz-title" );
+            {% if inputType is defined %}
+            $(".title_id_{{ file.id }}").html("<input type='text' id='file_title_{{ file.id }}' value='{{ file.title }}'/>");
+            $(".title_id_{{ file.id }}").on("keyup", function() {
+                $("#file_title_{{ file.id }}").css( "background-color", "red" );
+                var text = $("#file_title_{{ file.id }}").val();
+                var title = $("")
+                $.post("{{ path('uploadmagic_savetype') }}",
+                        { id: {{ file.id }}, entity: "{{ entity }}", type:  "{{  inputType }}", text: text, title: title },
+                        function(data){
+                            $("#file_title_{{ file.id }}").css( "background-color", "transparent" );
+                            console.log( "Estamos escribiendo en: " + $("#file_title_{{ file.id }}").val() );
+                        }
+                );
+            });
+            {% endif %}
+            existingFileCount++; // The number of files already uploaded
+            {% endfor %}
+
+            this.options.maxFiles = this.options.maxFiles - existingFileCount;
+            if(this.options.maxFiles==0)this.iconHTML.hide();
+            {% endif %}
+        },
+
+        addedfile: function(file) {
+            var node, removeFileEvent, removeLink, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
+            if (this.element === this.previewsContainer) {
+                this.element.classList.add("dz-started");
+            }
+
+            if (this.previewsContainer) {
+                file.previewElement = Dropzone.createElement(this.options.previewTemplate.trim());
+                file.previewTemplate = file.previewElement;
+                this.previewsContainer.appendChild(file.previewElement);
+                _ref = file.previewElement.querySelectorAll("[data-dz-name]");
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i];
+                    node.textContent = file.name;
+                }
+                _ref1 = file.previewElement.querySelectorAll("[data-dz-size]");
+
+                for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+                    node = _ref1[_j];
+                    node.innerHTML = this.filesize(file.size);
+                }
+
+                // Opción de previsualización de fichero
+                {% if preview is defined and preview == true %}
+                if(file.id !== undefined){
+                    file._previewLink = Dropzone.createElement("<a class=\"dz-remove previewFile"+file.id+"\">" + "{{ "uploadmagic.previewButton"|trans }}" + "</a>");
+                    file.previewElement.appendChild(file._previewLink);
+
+                    $(".previewFile"+file.id).click(function(){
+                        window.open(Routing.generate('upload_preview', {id: file.id, entity: "{{ entity}}"}), '_blank');
+                    });
+                }
+
+                {% endif %}
+
+                if (this.options.addRemoveLinks) {
+                    file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
+                    file.previewElement.appendChild(file._removeLink);
+                }
+
+                removeFileEvent = (function(_this) {
+                    return function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (file.status === Dropzone.UPLOADING) {
+                            return Dropzone.confirm(_this.options.dictCancelUploadConfirmation, function() {
+                                return _this.removeFile(file);
+                            });
+                        } else {
+                            if (_this.options.dictRemoveFileConfirmation) {
+                                return Dropzone.confirm(_this.options.dictRemoveFileConfirmation, function() {
+                                    return _this.removeFile(file);
+                                });
+                            } else {
+                                return _this.removeFile(file);
+                            }
+                        }
+                    };
+                })(this);
+                _ref2 = file.previewElement.querySelectorAll("[data-dz-remove]");
+                _results = [];
+                for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+                    removeLink = _ref2[_k];
+                    _results.push(removeLink.addEventListener("click", removeFileEvent));
+                }
+
+                return _results;
+            }
+        },
+
+        thumbnail: function(file, dataUrl) {
+            var thumbnailElement, _i, _len, _ref, _results;
+            if (file.previewElement) {
+                file.previewElement.classList.remove("dz-file-preview");
+                file.previewElement.classList.add("dz-image-preview");
+                _ref = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    thumbnailElement = _ref[_i];
+                    thumbnailElement.alt = file.name;
+                    _results.push(thumbnailElement.src = dataUrl);
+                }
+                return _results;
+            }
+        },
+
+        success: function(file, response){
+            file.id = response.id;
+            file.entity = response.entity;
+
+            // Selección de iconos según tipo de archivo
+            if (file.type == "application/pdf") {
+                {% image '@SopinetUploadMagicBundle/Resources/public/images/file_pdf.png' %}
+                this.emit("thumbnail", file, "{{ asset_url }}");
+                {% endimage %}
+            }
+            else if (file.type == "application/pdf") {
+                {% image '@SopinetUploadMagicBundle/Resources/public/images/file_audio.png' %}
+                this.emit("thumbnail", file, "{{ asset_url }}");
+                {% endimage %}
+            }
+            else if(!file.type.match(/image.*/)){
+                {% image '@SopinetUploadMagicBundle/Resources/public/images/file_default.png' %}
+                this.emit("thumbnail", file, "{{ asset_url }}");
+                {% endimage %}
+            }
+
+            $( "div.dz-title" ).toggleClass( "title_id_"+file.id);
+            $(".title_id_"+file.id).removeClass( "dz-title" );
+            {% if inputType is defined %}
+            $(".title_id_"+file.id).html("<input type'text' id='file_title_"+file.id+"' placeholder='Inserta un titulo'/>");
+            $(".title_id_"+file.id).on("keyup", function() {
+                $("#file_title_"+file.id).css( "background-color", "red" );
+                var text = $("#file_title_" + file.id).val();
+                $.post("{{ path('uploadmagic_savetype') }}",
+                        { id: file.id, entity: file.entity, type:  "{{  inputType }}", text: text },
+                        function(data){
+                            $(".title_id_"+file.id).css( "background-color", "transparent" );
+                            console.log( "Estamos escribiendo en: " + $("#file_title_"+file.id).val() );
+                        }
+                );
+            });
+            {% else %}
+            $.post("{{ path('uploadmagic_savetype') }}",
+                    { id: file.id, entity: file.entity, type: file.type, text: file.name },
+                    function(data){
+                        console.log(data);
+                    }
+            );
+            {% endif %}
+            $("body").trigger("uploadedFile", "ok");
+        },
+        previewTemplate: "{% include 'SopinetUploadMagicBundle:Upload:_previewTemplate.html.twig' with {'files': files} %}"
+    };
 });
 </script>

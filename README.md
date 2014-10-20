@@ -24,24 +24,13 @@ new Oneup\UploaderBundle\OneupUploaderBundle(),
 new Sopinet\Bundle\UploadMagicBundle\SopinetUploadMagicBundle(),
 ```
 
-3. Add Service (config.yml or service)
-
-```yaml
-    sopinet.uploadlistener:
-        class: Sopinet\Bundle\UploadMagicBundle\Listener\UploadListener
-        arguments: ['@doctrine']
-        tags:
-            - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
-```
-
-4. Add routing for delete
+3. Add routing for delete
 
 ```
 upload:
     resource: "@SopinetUploadMagicBundle/Controller/UploadController.php"
     type:     annotation
 ```
-
 
 ### Step 2: Configure OneupUploaderBundle
 
@@ -149,7 +138,10 @@ If you have errors about load time, you can use:
 		  'type': 'gallery', 
 		  'files': files_already_saved_array, 
 		  'limit': 1, 
-		  'entity': 'myBundle_BaseBundle_File' 
+		  'entity': 'myBundle_BaseBundle_File'
+		  # Optional
+		  'icon': 'fa fa-plus-circle',
+		  'preview': true
 		} 
 	%}
 ```

@@ -1,0 +1,4 @@
+uploadmagic:
+    defaultMessage: Click or drop files to upload
+    deleteButton: Remove
+    previewButton: Preview
