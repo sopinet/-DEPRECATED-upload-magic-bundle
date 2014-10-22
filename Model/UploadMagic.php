@@ -18,6 +18,11 @@ trait UploadMagic
 	 * @ORM\Column(name="path", type="string", length=255, nullable=true)
 	 */
 	protected $path;
+
+    /** Type of file: application/pdf, image/png, etc.
+     * @ORM\Column(name="type", type="string", length=50, nullable=true)
+     */
+    protected $type;
 	
 	/**
 	 * @ORM\Column(name="mimeType", type="string", length=50, nullable=true)
@@ -58,6 +63,30 @@ trait UploadMagic
 	{
 		return $this->path;
 	}
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return String
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
 	
 	public function getPathOnlyName()
 	{
