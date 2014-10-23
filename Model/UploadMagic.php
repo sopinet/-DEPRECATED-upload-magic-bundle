@@ -153,7 +153,7 @@ trait UploadMagic
 	
 	
 	public function __toString() {
-		return $this->getPathOnlyName();
+		return $this->getTitle();
 	}
 }
 
