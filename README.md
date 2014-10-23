@@ -107,7 +107,8 @@ class File
 								  		'param1': 'title',
                 			'value1': 'A title for...',
                 			'param2': 'myBundle_BaseBundle_Category',
-                			'value2': guild.id
+                			'value2': guild.id,
+                			'icon': 'fa fa-plus-circle'
 										}
 								  %}
 ```
@@ -140,7 +141,6 @@ If you have errors about load time, you can use:
 		  'limit': 1, 
 		  'entity': 'myBundle_BaseBundle_File'
 		  # Optional
-		  'icon': 'fa fa-plus-circle',
 		  'preview': true
 		} 
 	%}
