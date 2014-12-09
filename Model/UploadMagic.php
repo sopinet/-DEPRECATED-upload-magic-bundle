@@ -20,9 +20,9 @@ trait UploadMagic
 	protected $path;
 
     /** Type of file: application/pdf, image/png, etc.
-     * @ORM\Column(name="type", type="string", length=50, nullable=true)
+     * @ORM\Column(name="format", type="string", length=50, nullable=true)
      */
-    protected $type;
+    protected $format;
 	
 	/**
 	 * @ORM\Column(name="mimeType", type="string", length=50, nullable=true)
@@ -65,25 +65,25 @@ trait UploadMagic
 	}
 
     /**
-     * Get type
+     * Get format
      *
      * @return string
      */
-    public function getType()
+    public function getFormat()
     {
-        return $this->type;
+        return $this->format;
     }
 
     /**
-     * Set type
+     * Set format
      *
-     * @param string $type
+     * @param string $format
      *
      * @return String
      */
-    public function setType($type)
+    public function setFormat($format)
     {
-        $this->type = $type;
+        $this->format = $format;
 
         return $this;
     }

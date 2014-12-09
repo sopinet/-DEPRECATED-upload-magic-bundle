@@ -123,7 +123,7 @@ class UploadController extends Controller
 
         $id = $request->get('id');
         $entityString = $request->get('entity');
-        $type = $request->get('type');
+        $format = $request->get('format');
         $text = $request->get('text');
         $ent_a = explode("_", $entityString);
 
@@ -136,7 +136,7 @@ class UploadController extends Controller
             $save = "ok";
 
             $entity->setTitle($text);
-            $entity->setType($type);
+            $entity->setFormat($format);
 
             $em->persist($entity);
             $em->flush();

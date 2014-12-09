@@ -56,7 +56,7 @@ $(document).ready(function()
             var existingFileCount = 0;
             {% for file in files %}
 
-            var mockFile = { name: "{{ file.title }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.type }}" };
+            var mockFile = { name: "{{ file.title }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.format }}" };
 
             this.emit("addedfile", mockFile);
 
@@ -229,7 +229,7 @@ $(document).ready(function()
             });
             {% else %}
             $.post("{{ path('uploadmagic_savetype') }}",
-                    { id: file.id, entity: file.entity, type: file.type, text: file.name },
+                    { id: file.id, entity: file.entity, type: file.format, text: file.name },
                     function(data){
                         console.log(data);
                     }
