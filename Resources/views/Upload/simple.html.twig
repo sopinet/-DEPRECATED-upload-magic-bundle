@@ -1,27 +1,29 @@
 <form id="{{ name }}" action="{{ oneup_uploader_endpoint(type) }}" class="dropzone ">
-	<input type="hidden" name="id" value="{{ id }}"/>
-	<input type="hidden" name="entity" value="{{ entity }}"/>
-	{% if (param1 is defined) %}
-		<input type="hidden" name="add_{{ param1 }}" value="{{ value1 }}"/>
-	{% endif %}
-	{% if (param2 is defined) %}
-		<input type="hidden" name="add_{{ param2 }}" value="{{ value2 }}"/>
-	{% endif %}
-	{% if (param3 is defined) %}
-		<input type="hidden" name="add_{{ param3 }}" value="{{ value3 }}"/>
-	{% endif %}
-	{% if (param4 is defined) %}
-		<input type="hidden" name="add_{{ param4 }}" value="{{ value4 }}"/>
-	{% endif %}
-	{% if (param5 is defined) %}
-		<input type="hidden" name="add_{{ param5 }}" value="{{ value5 }}"/>
-	{% endif %}	
-{#
-  	<div class="fallback">
-		<input name="file" type="file" multiple />
-  	</div>
-#}
-  	<div class="dz-preview" style="pointer-events: none">
-		<i style="font-size: 8em;float: left;pointer-events: none" class="{{ icon }}"></i>
-	</div>
+    <input type="hidden" name="id" value="{{ id }}"/>
+    <input type="hidden" name="entity" value="{{ entity }}"/>
+    {% if (param1 is defined) %}
+        <input type="hidden" name="add_{{ param1 }}" value="{{ value1 }}"/>
+    {% endif %}
+    {% if (param2 is defined) %}
+        <input type="hidden" name="add_{{ param2 }}" value="{{ value2 }}"/>
+    {% endif %}
+    {% if (param3 is defined) %}
+        <input type="hidden" name="add_{{ param3 }}" value="{{ value3 }}"/>
+    {% endif %}
+    {% if (param4 is defined) %}
+        <input type="hidden" name="add_{{ param4 }}" value="{{ value4 }}"/>
+    {% endif %}
+    {% if (param5 is defined) %}
+        <input type="hidden" name="add_{{ param5 }}" value="{{ value5 }}"/>
+    {% endif %}
+    {#
+          <div class="fallback">
+            <input name="file" type="file" multiple />
+          </div>
+    #}
+    <div class="dz-preview" style="pointer-events: none">
+        {% if icon is defined %}
+            <i style="font-size: 8em;float: left;pointer-events: none" class="{{ icon }}"></i>
+        {% endif %}
+    </div>
 </form>
