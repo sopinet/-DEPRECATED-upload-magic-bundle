@@ -56,7 +56,7 @@
                 var existingFileCount = 0;
                 {% for file in files %}
 
-                var mockFile = { name: "{{ file.title }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.type }}", path: "{{ file.path }}" };
+                var mockFile = { name: "{{ file.title }}", size: {{ file.filesize }}, id: "{{ file.id }}", type: "{{ file.type }}" };
 
                 this.emit("addedfile", mockFile);
 
@@ -80,7 +80,6 @@
                     {% endimage %}
                 }
 
-
                 $( "div.dz-title" ).toggleClass( "title_id_{{ file.id }}" );
                 $(".title_id_{{ file.id }}").removeClass( "dz-title" );
                 {% if inputType is defined %}
@@ -103,11 +102,6 @@
 
                 this.options.maxFiles = this.options.maxFiles - existingFileCount;
                 if(this.options.maxFiles==0)this.iconHTML.hide();
-                {% endif %}
-                {% if download is defined and download == true and inputType is defined %}
-                this.on("success", function(file) {
-                    file._downloadLink.href='http://'+location.hostname+'/web/uploads/{{ inputType }}/'+file.name;
-                });
                 {% endif %}
             },
 
@@ -145,14 +139,11 @@
                     }
 
                     {% endif %}
+
                     if (this.options.addRemoveLinks) {
                         file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\" data-dz-remove>" + this.options.dictRemoveFile + "</a>");
                         file.previewElement.appendChild(file._removeLink);
                     }
-                    {% if download is defined and download == true%}
-                    file._downloadLink=Dropzone.createElement('<a class="dz-remove" href="'+file.path+' ">Descargar</a>');
-                    file.previewElement.appendChild(file._downloadLink);
-                    {% endif %}
 
                     removeFileEvent = (function(_this) {
                         return function(e) {
@@ -229,7 +220,7 @@
                     $("#file_title_"+file.id).css( "background-color", "red" );
                     var text = $("#file_title_" + file.id).val();
                     $.post("{{ path('uploadmagic_savetype') }}",
-                            { id: file.id, entity: file.entity, type:  file.type, text: text },
+                            { id: file.id, entity: file.entity, type:  "{{  inputType }}", text: text },
                             function(data){
                                 $(".title_id_"+file.id).css( "background-color", "transparent" );
                                 console.log( "Estamos escribiendo en: " + $("#file_title_"+file.id).val() );
@@ -248,6 +239,5 @@
             },
             previewTemplate: "{% include 'SopinetUploadMagicBundle:Upload:_previewTemplate.html.twig' with {'files': files} %}"
         };
-
     });
 </script>
