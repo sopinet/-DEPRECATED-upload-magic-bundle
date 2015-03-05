@@ -21,13 +21,22 @@ class UploadListener
     	
     	$id = $request->get('id');
     	
-    	eval("\$reEntity = \$this->doctrine->getRepository('".$ent_a[0].$ent_a[1].":".$ent_a[2]."');");    	    	
+	// Check for AppBundle in Symfony 2.6
+	if (count($ent_a) == 2) {
+		$repository_ent_a = $ent_a[0] . ":" . $ent_a[1];
+		$entity_ent_a = $ent_a[0]."\\Entity\\".$ent_a[1];
+	} else if (count($ent_a) == 3) {
+		$repository_ent_a = $ent_a[0].$ent_a[1] . ":" . $ent_a[2];
+		$entity_ent_a = $ent_a[0]."\\".$ent_a[1]."\\Entity\\".$ent_a[2];
+	}
+
+    	eval("\$reEntity = \$this->doctrine->getRepository('".$repository_ent_a."');");    	    	
     	if ($id == 0) {
-    		eval("\$entity = new \\".$ent_a[0]."\\".$ent_a[1]."\\Entity\\".$ent_a[2]."();");
+    		eval("\$entity = new \\".$entity_ent_a."();");
     	} else {
 			$entity = $reEntity->findOneById($id);
 			if ($entity == null) {
-				eval("\$entity = new \\".$ent_a[0]."\\".$ent_a[1]."\\Entity\\".$ent_a[2]."();");				
+				eval("\$entity = new \\".$entity_ent_a."();");				
 			}    		
     	}
     	
@@ -51,23 +60,7 @@ class UploadListener
     	$entity->setDir($event->getType());
     	$this->doctrine->getManager()->persist($entity);
     	$this->doctrine->getManager()->flush();
-    	//$entity = new \iCofrade\BaseBundle\Entity\Image();
-    	// echo $entity->getPath();
-    	//$gallery = $request->get('gallery');
-    	// $gallery = $request->get('gallery');
 
-    	//$log = new Logger('name');
-    	//$log->pushHandler(new StreamHandler('/var/www/icofrade/your.log', Logger::WARNING));
-    	
-    	// $log->addError($request->getUriForPath($event->getFile()));
-    	// add records to the log
-    	// Variable $log->addWarning("Gallery: "+$gallery);
-    	// $log->addError($event->getType());
-    	// $log->addError($event->getFile());
-    	// $log->addError($event->getFile()->getRealPath());
-    	// $log->addError($event->getFile()->getUrl());
-    	
-        // ldd($request);
     	$response = $event->getResponse();
     	
         $response['id'] = $entity->getId();

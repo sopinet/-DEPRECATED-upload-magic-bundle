@@ -75,9 +75,13 @@
                     {% endimage %}
                 }
                 else {
+		    this.emit("thumbnail", mockFile, "{{ asset(file.pathRelative) }}");
+/**
+			DEBUG
                     {% image '@SopinetUploadMagicBundle/Resources/public/images/file_default.png' %}
                     this.emit("thumbnail", mockFile, "{{ asset_url }}");
                     {% endimage %}
+**/
                 }
 
 
