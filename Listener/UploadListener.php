@@ -45,15 +45,23 @@ class UploadListener
     		if ($temp[0] == "add") {
     			if (count($temp) == 2) {
     				eval("\$entity->set".ucfirst($temp[1])."('".$value."');");
-    			} else {    				
-    				eval("\$reTemp = \$this->doctrine->getRepository('".$temp[1].$temp[2].":".$temp[3]."');");
+    			} else if (count($temp) == 3) {
+    				eval("\$reTemp = \$this->doctrine->getRepository('".$temp[1].":".$temp[2]."');");
     				$easig = $reTemp->findOneById($value);
     				if ($easig == null) {
-    					eval("\$entity->set".ucfirst($temp[3])."(null);");
+    					eval("\$entity->set".ucfirst($temp[2])."(null);");
     				} else {
-    					eval("\$entity->set".ucfirst($temp[3])."(\$easig);");
+    					eval("\$entity->set".ucfirst($temp[2])."(\$easig);");
     				}
-    			}
+    			} else if (count($temp) == 4) {
+                    eval("\$reTemp = \$this->doctrine->getRepository('".$temp[1].$temp[2].":".$temp[3]."');");
+                    $easig = $reTemp->findOneById($value);
+                    if ($easig == null) {
+                        eval("\$entity->set".ucfirst($temp[3])."(null);");
+                    } else {
+                        eval("\$entity->set".ucfirst($temp[3])."(\$easig);");
+                    }
+                }
     		}
     	}
     	$entity->setPath($event->getFile()->getRealPath());
