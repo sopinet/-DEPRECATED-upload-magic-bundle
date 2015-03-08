@@ -20,6 +20,32 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  */
 class UploadController extends Controller
 {
+    private function getEntityClass($entity_string_guion) {
+        $ent_a = explode("_", $entity_string_guion);
+
+        // Check for AppBundle in Symfony 2.6
+        if (count($ent_a) == 2) {
+            $entity_ent_a = $ent_a[0]."\\Entity\\".$ent_a[1];
+        } else if (count($ent_a) == 3) {
+            $entity_ent_a = $ent_a[0]."\\".$ent_a[1]."\\Entity\\".$ent_a[2];
+        }
+
+        return $entity_ent_a;
+    }
+
+    private function getRepositoryClass($repository_string_guion) {
+        $ent_a = explode("_", $repository_string_guion);
+
+        // Check for AppBundle in Symfony 2.6
+        if (count($ent_a) == 2) {
+            $repository_ent_a = $ent_a[0] . ":" . $ent_a[1];
+        } else if (count($ent_a) == 3) {
+            $repository_ent_a = $ent_a[0].$ent_a[1] . ":" . $ent_a[2];
+        }
+
+        return $repository_ent_a;
+    }
+
     /**
      * @Post("/delete", name="upload_delete")
      */
@@ -31,9 +57,8 @@ class UploadController extends Controller
 
         $id = $request->get('id');
         $entityString = $request->get('entity');
-        $ent_a = explode("_", $entityString);
 
-        eval("\$reEntity = \$em->getRepository('".$ent_a[0].$ent_a[1].":".$ent_a[2]."');");
+        eval("\$reEntity = \$em->getRepository('".$this->getRepositoryClass($entityString)."');");
 
         $entity = $reEntity->findOneById( $id );
 
@@ -62,9 +87,7 @@ class UploadController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
 
-        $ent_a = explode("_", $entity);
-
-        $reEntity = $em->getRepository($ent_a[0].$ent_a[1].":".$ent_a[2]);
+        $reEntity = $em->getRepository($this->getRepositoryClass($entity));
 
         $entity = $reEntity->findOneById( $id );
 
@@ -89,9 +112,8 @@ class UploadController extends Controller
         $id = $request->get('id');
         $name = $request->get('name');
         $entityString = $request->get('entity');
-        $ent_a = explode("_", $entityString);
 
-        $reEntity = $em->getRepository($ent_a[0].$ent_a[1].":".$ent_a[2]);
+        $reEntity = $em->getRepository($this->getRepositoryClass($entityString));
 
         $entity = $reEntity->findOneById( $id );
 
@@ -125,9 +147,8 @@ class UploadController extends Controller
         $entityString = $request->get('entity');
         $type = $request->get('type');
         $text = $request->get('text');
-        $ent_a = explode("_", $entityString);
 
-        eval("\$reEntity = \$em->getRepository('".$ent_a[0].$ent_a[1].":".$ent_a[2]."');");
+        eval("\$reEntity = \$em->getRepository('".$this->getRepositoryClass($entityString)."');");
 
         $entity = $reEntity->findOneById( $id );
 

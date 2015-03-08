@@ -92,7 +92,7 @@
                 $(".title_id_{{ file.id }}").on("keyup", function() {
                     $("#file_title_{{ file.id }}").css( "background-color", "red" );
                     var text = $("#file_title_{{ file.id }}").val();
-                    var title = $("")
+                    var title;
                     $.post("{{ path('uploadmagic_savetype') }}",
                             { id: {{ file.id }}, entity: "{{ entity }}", type:  "{{  inputType }}", text: text, title: title },
                             function(data){
