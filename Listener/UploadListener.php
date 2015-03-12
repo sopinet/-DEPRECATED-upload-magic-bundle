@@ -40,6 +40,13 @@ class UploadListener
 			}    		
     	}
     	
+        $filters = $this->doctrine->getManager()->getFilters()->getEnabledFilters();
+        foreach($filters as $key => $value) {
+            if ($key == 'soft_deleteable') {
+                $this->doctrine->getManager()->getFilters()->disable('soft_deleteable');
+            }
+        }
+    	
     	foreach($request->request->all() as $key => $value) {
     		$temp = explode("_", $key);
     		if ($temp[0] == "add") {
