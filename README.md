@@ -1,6 +1,8 @@
 upload-magic-bundle
 ===================
 
+NOT USE THIS VERSION, IS IN DEVELOPMENT
+
 Symfony2 Bundle - Easy integration for DropzoneJS and OneupUploaderBundle 
 
 ## Prerequisites
