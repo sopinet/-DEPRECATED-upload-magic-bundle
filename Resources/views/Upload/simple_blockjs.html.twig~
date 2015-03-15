@@ -92,7 +92,7 @@
                 $(".title_id_{{ file.id }}").on("keyup", function() {
                     $("#file_title_{{ file.id }}").css( "background-color", "red" );
                     var text = $("#file_title_{{ file.id }}").val();
-                    var title;
+                    var title = $("")
                     $.post("{{ path('uploadmagic_savetype') }}",
                             { id: {{ file.id }}, entity: "{{ entity }}", type:  "{{  inputType }}", text: text, title: title },
                             function(data){
@@ -244,10 +244,11 @@
                 $.post("{{ path('uploadmagic_savetype') }}",
                         { id: file.id, entity: file.entity, type: file.type, text: file.name },
                         function(data){
-                            $("body").trigger("uploadedFile", data);
+                            console.log(data);
                         }
                 );
                 {% endif %}
+                $("body").trigger("uploadedFile", "ok");
             },
             previewTemplate: "{% include 'SopinetUploadMagicBundle:Upload:_previewTemplate.html.twig' with {'files': files} %}"
         };

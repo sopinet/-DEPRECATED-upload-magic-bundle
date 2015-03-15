@@ -153,7 +153,8 @@ class UploadController extends Controller
         $entity = $reEntity->findOneById( $id );
 
         if($entity != null){
-            $save = $request->getUriForPath("/".$entity->getPathRelative());
+
+            $save = "ok";
 
             $entity->setTitle($text);
             $entity->setType($type);
@@ -168,3 +169,4 @@ class UploadController extends Controller
     }
 }
 ?>
+
