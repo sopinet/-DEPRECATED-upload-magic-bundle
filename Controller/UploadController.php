@@ -145,7 +145,9 @@ class UploadController extends Controller
 
         $id = $request->get('id');
         $entityString = $request->get('entity');
-        $type = $request->get('type');
+        // TODO: No hace falta guardar el Type porque ya se ha guardado
+        // Además, produce un conflicto en iCofrade, y si cambiamos type por mimeType?
+        //$type = $request->get('type');
         $text = $request->get('text');
 
         eval("\$reEntity = \$em->getRepository('".$this->getRepositoryClass($entityString)."');");
@@ -157,7 +159,7 @@ class UploadController extends Controller
             $save = "ok";
 
             $entity->setTitle($text);
-            $entity->setType($type);
+            //$entity->setType($type);
 
             $em->persist($entity);
             $em->flush();
