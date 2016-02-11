@@ -1,5 +1,4 @@
-# DEPRECATED,
-# USE: https://github.com/sopinet/UploadFilesBundle
+# DEPRECATED, USE: https://github.com/sopinet/UploadFilesBundle
 
 upload-magic-bundle
 ===================
